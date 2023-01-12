@@ -2,3 +2,9 @@
 project_name:
     type: str
     help: What is your project name?
+autor_name:
+    type: str
+    help: Whats is your name ?
+author_email:
+    type: str
+    help: Whats is your email ?
