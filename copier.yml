@@ -12,12 +12,4 @@ _tasks:
     - "git init"
     - "poetry install"
     - "poetry run pre-commit install"
-_exclude:
-    - "LICENSE"
-    - ".gitignore"
-    - "poetry.lock"
-    - "pyproject.toml"
-    - "tests/"
-    - "README.md"
-    - ".pre-commit-config.yaml"
-    - "noxfile.py"
+_subdirectory: template
