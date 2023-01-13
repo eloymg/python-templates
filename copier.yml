@@ -5,3 +5,7 @@ project_name:
 autor_name:
     type: str
     help: Whats is your name ?
+_tasks:
+    - "git init"
+    - "poetry install"
+    - "poetry run pre-commit install"
