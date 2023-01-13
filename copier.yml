@@ -1,4 +1,7 @@
 # questions
+project_folder:
+    type: str
+    help: What is your project folder
 project_name:
     type: str
     help: What is your project name?
@@ -9,3 +12,12 @@ _tasks:
     - "git init"
     - "poetry install"
     - "poetry run pre-commit install"
+_exclude:
+    - "LICENSE"
+    - ".gitignore"
+    - "poetry.lock"
+    - "pyproject.toml"
+    - "tests/"
+    - "README.md"
+    - ".pre-commit-config.yaml"
+    - "noxfile.py"
