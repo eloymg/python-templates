@@ -8,24 +8,21 @@ This repository serves as a template for creating a general Python repository us
    ```
    pip install copier
    ```
-2. Run the following command to create a new project using the template: 
-    ```
+2. Install Poetry: 
+   ```
+   curl -sSL https://install.python-poetry.org | python -
+   ```
+3. Run the following command to create a new project using the template: 
+   ```
     copier https://github.com/eloymg/python_general_template.git <destination_path>
+   ```
+4. Follow the prompts to provide a name and location for the new project.
+5. Once the project is created, navigate to the project directory and enable virtual enviroment using poetry: 
     ```
-3. Follow the prompts to provide a name and location for the new project.
-4. Once the project is created, navigate to the project directory and install the dependencies: 
-    ```
-    poetry install
+    poetry shell
     ```
 
 ## Usage
-
-### Nox
-
-The project uses Nox to automate common tasks such as linting, testing, and building. To see the available commands, run:
-```sh
-nox
-```
 
 ### Poetry
 
@@ -34,13 +31,21 @@ The project uses Poetry for dependency management. To add/update/remove a depend
 poetry add/update/remove <dependency>
 ```
 
-### Pylint, Mypy and pre-commit
+### Nox
+
+The project uses Nox to automate common tasks such as linting, testing, and building. To see the available commands, run:
+```sh
+nox
+```
+
+### Pylint, Mypy, Pytest and pre-commit
 
 This template also includes Pylint, Mypy and pre-commit for linting, type checking and commit hooks respectively, you can run them with nox or by invoking them directly:
 ```sh
-pylint <file_name>
-mypy <file_name>
+pylint <files_path>
+mypy <files_path>
 pre-commit run --all-files
+pytest
 ```
 
 ## Contributing
