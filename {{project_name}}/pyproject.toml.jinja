@@ -1,9 +1,9 @@
 [tool.poetry]
-name = {{project_name}}
+name = "{{project_name}}"
 version = "0.0.1"
 description = "Description"
-authors = ["es-security <es.security@adevinta.com>"]
-packages = [{include = "devops_govsec_wafv2", from = "src"}]
+authors = ["{{author_name}}"]
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -27,11 +27,6 @@ boto3 = "^1.26.41"
 
 [tool.poetry.group.nox.dependencies]
 nox = "^2022.11.21"
-
-[[tool.poetry.source]]
-name = "artifactory"
-url = "https://artifactory.mpi-internal.com/artifactory/api/pypi/pypi-virtual/simple"
-secondary = true
 
 [tool.pylint.basic]
 load-plugins = ["pylint.extensions.mccabe"]

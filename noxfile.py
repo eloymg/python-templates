@@ -4,7 +4,7 @@ import nox
 
 nox.options.reuse_existing_virtualenvs = True
 
-SCAN_PATHS = ["src", "tests", "noxfile.py"]
+SCAN_PATHS = ["test_project"]
 
 
 def install(
@@ -32,10 +32,28 @@ def install(
         )
 
 
+def create_template(session: nox.Session) -> None:
+    session.run_always(
+        "copier",
+        ".",
+        ".",
+        "-l",
+        "-d",
+        "project_name=test_project",
+        "-d",
+        "author_name=test_author_name",
+    )
+
+
+def delete_template(session: nox.Session) -> None:
+    session.run_always("rm", "-r", "-f", "test_project")
+
+
 @nox.session()
 def precommit(session: nox.Session) -> None:
     """Run Pre-commit in all files"""
     args = session.posargs or ["run", "--all-files"]
+    create_template(session)
     install(session, groups=["dev"])
     session.run("pre-commit", *args)
 
@@ -59,11 +77,11 @@ def lint(session: nox.Session) -> None:
 @nox.session()
 def tests(session: nox.Session) -> None:
     """Tests using pytest."""
-    args = session.posargs
+    args = session.posargs or ["tests"]
     install(
         session,
         without=True,
-        groups=["codestyle", "lint", "typing", "lambda", "nox", "dev"],
+        groups=["codestyle", "lint", "typing", "nox", "dev"],
     )
     session.run("pytest", *args)
     session.run("coverage", "xml")
