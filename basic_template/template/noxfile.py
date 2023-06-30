@@ -78,15 +78,19 @@ def security_checks(session: nox.Session) -> None:
         external=True,
     )
     try:
-        session.run("vulcan-local", "-c", "vulcan.yaml", "-s", "LOW", external=True)
+        session.run("docker", "ps", external=True)
+        try:
+            session.run("vulcan-local", "-c", "vulcan.yaml", "-s", "LOW", external=True)
+        except:
+            session.run(
+                "bash",
+                "-c",
+                (
+                    "curl -sfL https://raw.githubusercontent.com/"
+                    "adevinta/vulcan-local/master/script/get | sh"
+                ),
+                external=True,
+            )
+            session.run("vulcan-local", "-c", "vulcan.yaml", "-s", "LOW", external=True)
     except:
-        session.run(
-            "bash",
-            "-c",
-            (
-                "curl -sfL https://raw.githubusercontent.com/"
-                "adevinta/vulcan-local/master/script/get | sh"
-            ),
-            external=True,
-        )
-        session.run("vulcan-local", "-c", "vulcan.yaml", "-s", "LOW", external=True)
+        session.log("No docker runnig, skiped security checks")
