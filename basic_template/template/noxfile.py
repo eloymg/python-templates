@@ -1,5 +1,4 @@
 from typing import Iterable
-
 import nox
 
 nox.options.reuse_existing_virtualenvs = True
@@ -16,18 +15,18 @@ def install(
         session.run_always(
             "poetry",
             "install",
+            "--no-ansi",
             "--sync",
             f"--only={groups_formated}",
-            "--no-ansi",
             external=True,
         )
     else:
         session.run_always(
             "poetry",
             "install",
+            "--no-ansi",
             "--sync",
             f"--without={groups_formated}",
-            "--no-ansi",
             external=True,
         )
 
@@ -44,7 +43,7 @@ def precommit(session: nox.Session) -> None:
 def typing(session: nox.Session) -> None:
     """Type-check using mypy."""
     args = session.posargs or SCAN_PATHS
-    install(session, without=True, groups=["lint", "dev", "deploy"])
+    install(session, without=True, groups=["lint", "dev"])
     session.run("mypy", *args)
 
 
@@ -63,8 +62,31 @@ def tests(session: nox.Session) -> None:
     install(
         session,
         without=True,
-        groups=["codestyle", "lint", "typing", "nox", "dev"],
+        groups=["lint", "typing", "nox", "dev"],
     )
     session.run("pytest", *args)
-    session.run("coverage", "xml")
-    session.run("coverage", "html")
+
+
+@nox.session()
+def security_checks(session: nox.Session) -> None:
+    """Security Checks"""
+    session.run(
+        "poetry",
+        "install",
+        "--no-ansi",
+        "--sync",
+        external=True,
+    )
+    try:
+        session.run("vulcan-local", "-c", "vulcan.yaml", "-s", "LOW", external=True)
+    except:
+        session.run(
+            "bash",
+            "-c",
+            (
+                "curl -sfL https://raw.githubusercontent.com/"
+                "adevinta/vulcan-local/master/script/get | sh"
+            ),
+            external=True,
+        )
+        session.run("vulcan-local", "-c", "vulcan.yaml", "-s", "LOW", external=True)

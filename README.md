@@ -14,7 +14,7 @@ This repository serves as a template for creating a general Python repository us
    ```
 3. Run the following command to create a new project using the template: 
    ```
-    copier https://github.com/eloymg/python_general_template.git <destination_path>
+    copier https://github.com/eloymg/python-templates.git <destination_path>
    ```
 4. Follow the prompts to provide a name and location for the new project.
 5. Once the project is created, navigate to the project directory and enable virtual enviroment using poetry: 

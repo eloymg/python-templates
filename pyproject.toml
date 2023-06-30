@@ -28,6 +28,18 @@ boto3 = "^1.26.41"
 [tool.poetry.group.nox.dependencies]
 nox = "^2022.11.21"
 
+[[tool.poetry.source]]
+name = "artifactory"
+url = "https://artifactory.mpi-internal.com/artifactory/api/pypi/pypi-virtual/simple"
+priority = "supplemental"
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[tool.poetry.scripts]
+govsectickeator = "govsectickeator.cli.cli:main"
+
 [tool.pylint.basic]
 load-plugins = ["pylint.extensions.mccabe"]
 output-format = "colorized"
@@ -35,13 +47,14 @@ output-format = "colorized"
 [tool.pylint.design]
 max-args = 10
 min-public-methods = 1
-ignore-paths = ""
+ignore-paths = "./src/cdk.out"
 
 [tool.pylint.messages_control]
 disable = [
     "missing-docstring",
     "import-error",
-    "too-few-public-methods"]
+    "too-few-public-methods",
+    "protected-access"]
 max-line-length = 88
 
 [tool.isort]
@@ -51,6 +64,7 @@ src_paths = ["src", "tests"]
 [tool.coverage.run]
 branch = true
 parallel = true
+relative_files = true
 source = ["src"]
 
 [tool.coverage.paths]
@@ -60,13 +74,14 @@ source = ["src"]
 show_missing = true
 
 [tool.pytest.ini_options]
-addopts = "-v --cov=test_project --cov-config=pyproject.toml"
+addopts = "-v --cov=src --cov-report xml --cov-config=pyproject.toml"
 junit_suite_name = "src"
 
 [tool.mypy]
 pretty = true
-exclude = ""
+exclude = "src/cdk.out"
+strict = true
 
 [build-system]
-requires = ["poetry>=1.3.1"]
+requires = ["poetry==1.5.1"]
 build-backend = "poetry.masonry.api"

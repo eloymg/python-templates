@@ -1,0 +1,22 @@
+# questions
+project_name:
+  type: str
+  help: Your project name
+
+project_description:
+  type: str
+  help: Your project description
+
+author_fullname:
+  type: str
+  help: Your full name
+
+author_email:
+  type: str
+  help: Your email
+
+_tasks:
+    - "git init"
+    - "poetry install"
+    - "poetry run pre-commit install"
+_subdirectory: template
